@@ -1,0 +1,326 @@
+{
+  "name": "skc-vs-tools",
+  "displayName": "SKC VS Tools",
+  "description": "Business Central AL dev setup: presets, MCP servers, extensions, XLF translation, and LM Bridge to expose VS Code Language Model tools to Cursor.",
+  "version": "1.8.7",
+  "publisher": "SKConsultingSA",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SK-Consulting-S-A/SKC_Tools"
+  },
+  "homepage": "https://www.skc.lu",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/SK-Consulting-S-A/SKC_Tools/issues"
+  },
+  "_comment": "Note: Extension visibility (public/private) is managed via VS Code Marketplace web UI. Extensions are private by default. To change visibility, visit: https://marketplace.visualstudio.com/manage/publishers/SKConsultingSA/extensions/skc-vs-tools/hub",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "icon": "assets/Small_Logo.png",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "skc-tools",
+          "title": "SKC Tools",
+          "icon": "assets/skc-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "skc-tools": [
+        {
+          "id": "skc.translationsView",
+          "name": "Translations",
+          "contextualTitle": "SKC Translations"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "skc.translationsView",
+        "contents": "No translation files found.\n\nMake sure your workspace has a **Translations** folder with **.g.xlf** files.\n\n[Refresh](command:skc.refreshTranslations)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "skc.applyPresets",
+        "title": "SKC: Apply Presets"
+      },
+      {
+        "command": "skc.installSkills",
+        "title": "SKC: Install Cursor Skills"
+      },
+      {
+        "command": "skc.configureMcpAuth",
+        "title": "SKC: Configure MCP Auth"
+      },
+      {
+        "command": "skc.translateFile",
+        "title": "Translate File",
+        "icon": "$(play)"
+      },
+      {
+        "command": "skc.refreshTranslations",
+        "title": "Refresh Translations",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "skc.configureTranslationUrl",
+        "title": "SKC: Configure Translation URL",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "skc.createTranslationFile",
+        "title": "Create Translation File",
+        "icon": "$(add)"
+      },
+      {
+        "command": "skc.filterUntranslated",
+        "title": "Find Untranslated Units",
+        "icon": "$(search)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "skc.refreshTranslations",
+          "when": "view == skc.translationsView",
+          "group": "navigation"
+        },
+        {
+          "command": "skc.configureTranslationUrl",
+          "when": "view == skc.translationsView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "skc.filterUntranslated",
+          "when": "view == skc.translationsView && viewItem == xlfFile",
+          "group": "inline"
+        },
+        {
+          "command": "skc.translateFile",
+          "when": "view == skc.translationsView && viewItem == xlfFile",
+          "group": "inline"
+        },
+        {
+          "command": "skc.translateFile",
+          "when": "view == skc.translationsView && viewItem == sourceFile",
+          "group": "inline"
+        }
+      ]
+    },
+    "languageModelTools": [
+      {
+        "name": "skc_translate_xlf",
+        "displayName": "Translate XLF File",
+        "modelDescription": "Translates a Business Central XLF source file (*.g.xlf) to a target language using the configured Azure Translation Function. Use when the user wants to translate an XLF file to a specific locale (e.g. fr-FR, de-DE). Requires skc.azureFunctionUrl to be set. Returns a summary of translated count and sync info (added/removed units).",
+        "userDescription": "Translate an XLF file to a target language via Azure.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "translateXlf",
+        "icon": "$(globe)",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sourceFilePath": {
+              "type": "string",
+              "description": "Absolute path to the source XLF file (e.g. .../Translations/MyApp.g.xlf)."
+            },
+            "targetLanguage": {
+              "type": "string",
+              "description": "Target language code (e.g. fr-FR, de-DE, es-ES)."
+            }
+          },
+          "required": [
+            "sourceFilePath",
+            "targetLanguage"
+          ]
+        }
+      },
+      {
+        "name": "skc_list_translation_files",
+        "displayName": "List Translation Files and Status",
+        "modelDescription": "Lists all XLF translation files in the workspace and their translation status. For each source file (*.g.xlf) in a Translations folder, shows total units and for each target language file shows translated count and percentage. Use when the user asks about translation progress, which files need translation, or status of XLF files.",
+        "userDescription": "List XLF files and translation progress.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "listTranslations",
+        "icon": "$(list-unordered)",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "workspacePath": {
+              "type": "string",
+              "description": "Optional. Absolute path to a workspace folder to limit the listing. If omitted, all workspace folders are listed."
+            }
+          }
+        }
+      }
+    ],
+    "configuration": {
+      "title": "SKC Presets",
+      "properties": {
+        "skc.skipInstalledExtensions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Skip reinstalling extensions that are already present."
+        },
+        "skc.uninstallExtensionsRemovedFromPreset": {
+          "type": "boolean",
+          "default": true,
+          "description": "When applying presets, uninstall any installed extension that is not in the preset list. The preset list is the only allowed set; all other extensions (except SKC VS Tools) are removed."
+        },
+        "skc.presetFilePath": {
+          "type": "string",
+          "default": "presets/settings.json",
+          "description": "Optional path to a JSON preset file. If set, the file is read on activation/command to overlay settings and extensions. Relative paths resolve from the first workspace folder."
+        },
+        "skc.mcpFilePath": {
+          "type": "string",
+          "default": "presets/mcp.json",
+          "description": "Optional path to a JSON file that defines only MCP servers. If set, it replaces the built-in mcp.servers. Relative paths resolve from the first workspace folder. Special value: 'cursor-global' resolves to the global Cursor MCP file (~/.cursor/mcp.json)."
+        },
+        "skc.removeMcpsNotInPreset": {
+          "type": "boolean",
+          "default": true,
+          "description": "When applying presets, set mcp.servers to exactly the preset list (any MCP server not in the preset is removed). If false, preset servers are merged with existing ones (existing servers not in the preset are kept)."
+        },
+        "skc.writeCursorMcpFile": {
+          "type": "boolean",
+          "default": true,
+          "description": "When applying presets, also write MCP servers to the Cursor user path (e.g. %USERPROFILE%\\.cursor\\mcp.json on Windows, ~/.cursor/mcp.json elsewhere). Disable if you manage that file yourself."
+        },
+        "skc.extensionsFilePath": {
+          "type": "string",
+          "default": "presets/extensions.json",
+          "description": "Optional path to a JSON file that defines additional extensions to install. Unioned with the built-in list. Relative paths resolve from the first workspace folder."
+        },
+        "skc.installSkillsOnApplyPresets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically install Cursor skills when applying presets."
+        },
+        "skc.overwriteExistingSkills": {
+          "type": "boolean",
+          "default": true,
+          "description": "Overwrite existing Cursor skills when installing. If false, existing skills are skipped to preserve user modifications."
+        },
+        "skc.showNewsOnStartup": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show news notification on VS Code startup, especially when a new version is detected."
+        },
+        "skc.autoOpenNewsPage": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically open the news page in full view on startup instead of showing a notification. Requires 'showNewsOnStartup' to be enabled."
+        },
+        "skc.newsFilePath": {
+          "type": "string",
+          "default": "presets/NEWS.md",
+          "description": "Path to a markdown file containing news/updates. Shown on startup when enabled. Relative paths resolve from the extension folder or workspace."
+        },
+        "skc.azureFunctionUrl": {
+          "type": "string",
+          "default": "",
+          "description": "URL of the Azure Translation Function endpoint (e.g., https://your-function.azurewebsites.net/api/github-webhook?mode=direct)."
+        },
+        "skc.enableLmBridge": {
+          "type": "boolean",
+          "default": true,
+          "description": "Expose VS Code Language Model tools (e.g. AL extension tools) to Cursor AI via an MCP SSE server (LM-Bridge). Cursor can connect to the URL shown in the SKC Presets output when the bridge is running."
+        },
+        "skc.lmBridgePort": {
+          "type": "number",
+          "default": 7878,
+          "description": "Port for the LM Bridge MCP SSE server. Change if 7878 is already in use."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[al]": {
+        "editor.defaultFormatter": "ms-dynamics-smb.al",
+        "editor.formatOnSave": true
+      }
+    },
+    "extensionDependencies": [
+      "ms-dynamics-smb.al",
+      "waldo.al-extension-pack",
+      "usernamehw.errorlens",
+      "GitHub.vscode-pull-request-github",
+      "vstirbu.vscode-mermaid-preview",
+      "idered.npm",
+      "rasmus.al-var-helper",
+      "BartPermentier.al-toolbox",
+      "ms-azuretools.vscode-azurefunctions",
+      "ms-azuretools.vscode-azureappservice",
+      "ms-vscode.azure-account",
+      "ms-vscode.vscode-typescript-next",
+      "nabsolutions.nab-al-tools",
+      "andrzejzwierzchowski.al-code-outline",
+      "redhat.vscode-xml",
+      "wbrakowski.al-navigator",
+      "ms-vscode.PowerShell",
+      "365businessdevelopment.365businessdev-alget"
+    ],
+    "extensionPack": [
+      "ms-dynamics-smb.al",
+      "waldo.al-extension-pack",
+      "usernamehw.errorlens",
+      "GitHub.vscode-pull-request-github",
+      "vstirbu.vscode-mermaid-preview",
+      "idered.npm",
+      "rasmus.al-var-helper",
+      "BartPermentier.al-toolbox",
+      "ms-azuretools.vscode-azurefunctions",
+      "ms-azuretools.vscode-azureappservice",
+      "ms-vscode.azure-account",
+      "ms-vscode.vscode-typescript-next",
+      "nabsolutions.nab-al-tools",
+      "andrzejzwierzchowski.al-code-outline",
+      "redhat.vscode-xml",
+      "wbrakowski.al-navigator",
+      "ms-vscode.PowerShell",
+      "365businessdevelopment.365businessdev-alget"
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run sync:extensions && npm run build",
+    "sync:extensions": "node scripts/sync-extensions.js",
+    "build": "node scripts/build.js --production",
+    "compile": "npm run sync:extensions && node scripts/build.js",
+    "package": "npm run sync:extensions && npm run build && vsce package",
+    "publish": "npm run compile && node scripts/publish.js",
+    "publish:patch": "npm run compile && node scripts/publish.js patch",
+    "publish:minor": "npm run compile && node scripts/publish.js minor",
+    "publish:major": "npm run compile && node scripts/publish.js major",
+    "publish:prerelease": "npm run compile && node scripts/publish.js --pre-release",
+    "watch": "node scripts/build.js --watch",
+    "lint": "eslint src --ext ts",
+    "test": "npm run compile"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.90.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "@vscode/vsce": "^3.7.1",
+    "esbuild": "^0.27.2",
+    "eslint": "^9.39.2",
+    "typescript": "^5.3.3"
+  }
+}
