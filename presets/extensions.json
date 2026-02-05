@@ -1,0 +1,27 @@
+{
+  "extensions": [
+    "ms-dynamics-smb.al",
+    "davidfeldhoff.al-codeactions",
+    "usernamehw.errorlens",
+    "eg2.vscode-npm-script",
+    "GitHub.vscode-pull-request-github",
+    "rasmus.al-var-helper",
+    "BartPermentier.al-toolbox",
+    "andrzejzwierzchowski.al-code-outline",
+    "ms-azuretools.vscode-azurefunctions",
+    "ms-azuretools.vscode-azureappservice",
+    "ms-azuretools.vscode-azureresourcegroups",
+    "ms-vscode.azure-account",
+    "ms-vscode.vscode-typescript-next",
+    "stefanmaron.businesscentral-lintercop",
+    "redhat.vscode-xml",
+    "wbrakowski.al-navigator",
+    "ms-vscode.PowerShell",
+    "365businessdevelopment.365businessdev-alget",
+    "vscode-icons-team.vscode-icons",
+    "waldo.crs-al-language-extension",
+    "ms-python.python",
+    "ms-python.debugpy",
+    "vjeko.vjeko-al-objid"
+  ]
+}

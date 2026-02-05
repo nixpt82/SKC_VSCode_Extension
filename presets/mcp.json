@@ -1,0 +1,55 @@
+{
+  "_comment": "LM-Bridge is started by the SKC VS Tools extension (skc.enableLmBridge, skc.lmBridgePort). Apply presets and run Cursor/VS Code with the extension loaded so the bridge is available.",
+  "servers": [
+    {
+      "id": "LM-Bridge",
+      "type": "sse",
+      "url": "http://localhost:7878/sse",
+      "description": "SKC LM Bridge: exposes VS Code Language Model tools (e.g. from AL extension) to MCP clients. Requires SKC VS Tools extension with LM Bridge enabled."
+    },
+    {
+      "id": "playwright",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest"
+      ],
+      "env": {
+        "PLAYWRIGHT_BROWSER": "msedge"
+      }
+    },
+    {
+      "id": "context7",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "<CONTEXT7_API_KEY>"
+      }
+    },
+    {
+      "id": "MS Learn Docs",
+      "url": "https://learn.microsoft.com/api/mcp",
+      "headers": {}
+    },
+    {
+      "id": "github",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer <GITHUB_TOKEN>"
+      }
+    },
+    {
+      "id": "bc-intelligence",
+      "command": "npx",
+      "args": [
+        "bc-code-intelligence-mcp"
+      ]
+    },
+    {
+      "id": "mcp-pandoc",
+      "command": "uvx",
+      "args": [
+        "mcp-pandoc"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+out/
+node_modules/
+.vscode-test/
+.DS_Store
+*.vsix
+*.log
+temp/
+.publish-token
+
+
+# ALTB
+.alpackages/
+.alcache/
+.altemplates/
+.altestrunner/
+launch.json
+!app.json
+rad.json
+*.app
+*.g.xlf
