@@ -1,0 +1,119 @@
+---
+description: Orchestrates Business Central AL development through phased subagent delegation. Activates when working with .al files, app.json, CAL text exports, or BC development tasks. Coordinates CAL converter, architect, logic dev, UI dev, tester, and reviewer subagents backed by BC Knowledge MCP specialists.
+globs: "**/*.al,**/app.json,**/*.txt,**/*.DELTA"
+alwaysApply: false
+---
+
+# BC Development Orchestrator
+
+When the user asks to implement, build, create a Business Central feature, or migrate from NAV/CAL, follow this phased orchestration. Each phase uses a dedicated subagent that consults BC Knowledge MCP specialists.
+
+## Migration Orchestration
+
+When the request involves CAL-to-AL conversion or NAV migration (triggered by "convert", "migrate", "upgrade from NAV", "CAL to AL", or presence of `.txt`/`.DELTA` files), execute the migration phase first:
+
+### Phase 0: CAL-to-AL Conversion
+
+1. Detect migration intent:
+   - User mentions: "convert CAL", "migrate from NAV", "upgrade", "CAL to AL"
+   - Or `.txt` / `.DELTA` files are present in the workspace or provided by user
+2. Delegate to `bc-cal-converter` subagent in **foreground**. Pass:
+   - Path to directory containing CAL files (`.txt` and/or `.DELTA` files)
+   - Or specific file paths if user provided them
+   - The project's `app.json` path for ID range and naming convention
+3. Capture the conversion report output:
+   - Generated AL files (tables, tableextensions, pages, pageextensions, codeunits)
+   - Manual review items
+   - Conversion statistics
+4. Present the conversion summary to the user.
+5. **Optional chaining**: If the user wants to continue with the full pipeline, proceed to Phase 1 (Design) using the generated AL files as input.
+
+### Smart Detection Logic
+
+The `bc-cal-converter` applies object ID-based smart detection:
+- **Object ID < 50000**: Standard BC object → create **tableextension** or **pageextension** with only custom fields (50000..99999) and custom code
+- **Object ID >= 50000**: Fully custom object → create new AL **table**, **page**, **codeunit**, **report**, etc.
+
+## Full Feature Orchestration
+
+When the request involves creating or implementing a complete BC feature (new objects, extension, integration), execute all phases in order:
+
+### Phase 1: Design
+
+1. Call `start_bc_workflow` MCP tool with `workflow_type` of `enhance-bc-app` (or `new-bc-app` for greenfield) and the user's requirement as `context`.
+2. Delegate to the `bc-architect` subagent in **foreground**. Pass:
+   - The user's requirement
+   - The project's `app.json` path
+   - Any existing object references mentioned
+3. Capture the design document output.
+4. Call `advance_workflow` with the design summary as `phase_results`.
+5. Present a brief design summary to the user before proceeding.
+
+### Phase 2: Implementation
+
+1. Delegate to `bc-al-logic` subagent in **background**. Pass:
+   - The architect's design document
+   - Which objects to implement (tables, codeunits, enums, interfaces)
+2. Delegate to `bc-al-ui` subagent in **background** (parallel). Pass:
+   - The architect's design document
+   - Which objects to implement (pages, reports, layouts)
+3. Wait for both to complete.
+4. Call `advance_workflow` with implementation summary as `phase_results`.
+
+### Phase 3: Testing
+
+1. Delegate to `bc-tester` subagent in **foreground**. Pass:
+   - The implemented file paths
+   - The architect's design document for context
+2. Capture test results.
+3. Call `advance_workflow` with test results as `phase_results`.
+
+### Phase 4: Review
+
+1. Delegate to `bc-reviewer` subagent in **foreground**. Pass:
+   - All implemented and test file paths
+   - The project target (AppSource or PTE, from app.json)
+2. Capture review findings.
+3. Call `advance_workflow` with review summary as `phase_results`.
+4. Present the final summary to the user with:
+   - Objects created
+   - Test coverage
+   - Review findings (critical/warning/suggestion)
+
+## Individual Task Routing
+
+For single-purpose requests, delegate to one subagent only:
+
+| User intent | Subagent | Mode |
+|-------------|----------|------|
+| "Convert these CAL files...", "Migrate from NAV...", "CAL to AL..." | `bc-cal-converter` | foreground |
+| "Design...", "Plan...", "What objects do I need for..." | `bc-architect` | foreground |
+| "Implement the logic for...", "Create a codeunit..." | `bc-al-logic` | foreground |
+| "Build the pages...", "Create a report for..." | `bc-al-ui` | foreground |
+| "Add tests for...", "Test this..." | `bc-tester` | foreground |
+| "Review this code", "Check for best practices" | `bc-reviewer` | foreground |
+
+## Direct Specialist Access
+
+Do NOT block direct MCP specialist consultations. If the user says:
+- "Ask Logan about migration..." -> use `ask_bc_expert` with `preferred_specialist: "logan-legacy"`
+- "Ask Dean about..." -> use `ask_bc_expert` with `preferred_specialist: "dean-debug"`
+- "Talk to Sam about..." -> use `ask_bc_expert` with `preferred_specialist: "sam-coder"`
+- "What does Alex think about..." -> use `ask_bc_expert` with `preferred_specialist: "alex-architect"`
+
+These bypass the subagent pipeline and go directly to the MCP specialist.
+
+## Context Passing
+
+When calling subagents, always include:
+1. The user's original requirement
+2. Output from previous phases (design doc, file paths)
+3. The project's `app.json` path for ID range and version info
+4. Any user preferences or constraints mentioned
+
+## Error Handling
+
+If a subagent fails or returns incomplete results:
+1. Report the issue to the user
+2. Offer to retry the phase or skip to the next
+3. Do not silently continue with missing context

@@ -11,9 +11,18 @@
 
 ## What It Does
 
-### 0. **Bundles Cursor AI Skills**
+### 0. **Bundles Skills and Subagents**
 
-Ships with the full Anthropic curated skills set plus the SKC `bc-word-layout` skill. Skills are installed to `~/.cursor/skills/` on extension updates (via Apply Presets), and can be installed manually via command.
+Ships with the full Anthropic curated skills set plus SKC BC skills (`bc-word-layout`, `bc-orchestration` with CAL-to-AL converter). Skills and BC subagents install on extension updates (via Apply Presets): Cursor → `~/.cursor/skills/` & `~/.cursor/agents/`, VS Code → `~/.copilot/skills/` & `~/.copilot/agents/`. In VS Code, `chat.agentFilesLocations` is updated so Copilot discovers the installed agents. Can be installed manually via commands.
+
+#### BC Orchestration Skill (NEW in v1.8.0)
+- **8 BC Subagents**: bc-cal-converter, bc-researcher, bc-architect, bc-al-logic, bc-al-ui, bc-tester, bc-reviewer, bc-translator
+- **CAL-to-AL Converter**: Intelligent NAV 2017 to BC 2027 upgrade with dual-mode strategy
+- **Smart Detection**: Auto-creates table/page extensions for standard BC objects (ID < 50000)
+- **Bulk Conversion**: Fast conversion of custom objects (ID >= 50000) using Txt2Al.exe
+- **BC Knowledge Integration**: Consults logan-legacy, sam-coder, and alex-architect specialists
+- **PowerShell Automation**: Complete upgrade pipeline scripts included
+- **50% Time Savings**: Dual-mode approach cuts conversion time in half while maintaining quality
 
 ### 1. **XLF Translation Tools**
 
@@ -108,7 +117,8 @@ Configures VS Code with production-ready settings specifically optimized for AL 
 
 ### Commands
 - **SKC: Apply Presets** - Manually apply all presets
-- **SKC: Install Cursor Skills** - Install bundled Cursor skills to `~/.cursor/skills/`
+- **SKC: Install Cursor Skills** - Install bundled skills (Cursor: `~/.cursor/skills/`, VS Code: `~/.copilot/skills/`)
+- **SKC: Install Cursor Agents** - Install BC subagents (Cursor: `~/.cursor/agents/`, VS Code: `~/.copilot/agents/`)
 - **SKC: Configure MCP Auth** - Set up MCP server authentication
 - **SKC: Configure Translation URL** - Set Azure Translation Function endpoint
 - **Translate File** - Translate selected XLF file (from sidebar)
