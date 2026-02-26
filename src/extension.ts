@@ -143,6 +143,16 @@ export async function activate(context: ExtensionContext): Promise<void> {
             matchOnDescription: true,
           });
           if (!picked) return;
+          const srcPath = sourceFile.resourceUri.fsPath;
+          const outName = path.basename(srcPath).replace(".g.xlf", `.${picked.label}.xlf`);
+          const outPath = path.join(path.dirname(srcPath), outName);
+          try {
+            await fs.access(outPath);
+            void window.showWarningMessage(`Translation file already exists: ${outName}`);
+            return;
+          } catch {
+            // file does not exist — proceed
+          }
           await createTranslationFile(sourceFile.resourceUri, picked.label, channel);
           translationsProvider.refresh();
         }
