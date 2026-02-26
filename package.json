@@ -162,6 +162,32 @@
         }
       },
       {
+        "name": "skc_create_xlf_language",
+        "displayName": "Create XLF Language File",
+        "modelDescription": "Creates a new target-language XLF translation file from an existing Business Central source file (*.g.xlf). All translation units are copied with state='needs-translation' so they can be translated afterwards. Use before calling skc_translate_xlf when the target language file does not yet exist. Returns the path of the created file or an error if the file already exists.\n\nExamples:\n- sourceFilePath: 'C:/MyProject/Translations/MyApp.g.xlf', targetLanguage: 'de-DE' → creates MyApp.de-DE.xlf\n- sourceFilePath: 'C:/MyProject/Translations/MyApp.g.xlf', targetLanguage: 'pt-PT' → creates MyApp.pt-PT.xlf",
+        "userDescription": "Create a new XLF language file from a source .g.xlf.",
+        "canBeReferencedInPrompt": true,
+        "toolReferenceName": "createXlfLanguage",
+        "icon": "$(add)",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sourceFilePath": {
+              "type": "string",
+              "description": "Absolute path to the source XLF file (*.g.xlf). Example: 'C:/MyProject/Translations/MyApp.g.xlf'"
+            },
+            "targetLanguage": {
+              "type": "string",
+              "description": "BCP-47 locale code for the new language. Examples: 'de-DE' (German), 'pt-PT' (Portuguese Portugal), 'pt-BR' (Portuguese Brazil), 'es-ES' (Spanish), 'fr-FR' (French), 'nl-NL' (Dutch), 'it-IT' (Italian), 'da-DK' (Danish), 'sv-SE' (Swedish), 'nb-NO' (Norwegian), 'pl-PL' (Polish)."
+            }
+          },
+          "required": [
+            "sourceFilePath",
+            "targetLanguage"
+          ]
+        }
+      },
+      {
         "name": "skc_list_translation_files",
         "displayName": "List Translation Files and Status",
         "modelDescription": "Lists all XLF translation files in the workspace and their translation status. For each source file (*.g.xlf) in a Translations folder, shows total units and for each target language file shows translated count and percentage. Use when the user asks about translation progress, which files need translation, or status of XLF files.",
