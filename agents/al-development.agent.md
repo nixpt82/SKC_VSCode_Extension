@@ -3,13 +3,14 @@ description: "Expert BC AL developer for any Business Central AL extension proje
 name: "AL Developer"
 model:
   - 'Claude Sonnet 4.6 (copilot)'
-tools: [agent, agent/runSubagent, memory, "read", "edit", "search", "execute", "web", "bc-intelligence/*", "al_build", "al_symbolsearch", todo]
+tools: [agent, agent/runSubagent, memory, "read", "edit", "search", "execute", "web", "bc-intelligence/*", "al_build", "al_publish", "al_symbolsearch", "al_debug", "al_setbreakpoint", "al_snapshotdebugging", "al_getdiagnostics", todo]
 agents:
   - bc-orchestration
   - bc-architect
   - bc-researcher
   - bc-al-logic
   - bc-al-ui
+  - bc-control-addin
   - bc-reviewer
   - bc-tester
   - bc-translator
@@ -188,7 +189,7 @@ Treat LinterCop violations with the same zero-tolerance policy as CodeCop violat
 
 ## Available Source References
 
-Before writing code, read the existing AL files most relevant to the feature area. Use `#fileSearch` with `**/*.al` to locate them, or browse the project's `src/` folder structure.
+Before writing code, read the existing AL files most relevant to the feature area. Use `file_search` with `**/*.al` to locate them, or browse the project's `src/` folder structure.
 
 ---
 

@@ -3,12 +3,13 @@ name: bc-orchestration
 description: Master BC orchestrator for any Business Central AL extension project. Coordinates phased subagent delegation for the full development lifecycle — research, design, logic, UI, test, review, translate. Use for any multi-step BC development task. Automatically routes to the right subagents based on the request type.
 model:
   - 'Claude Sonnet 4.6 (copilot)'
-tools: [agent, agent/runSubagent, memory, "read", "edit", "search", "execute", "web", "bc-intelligence/*", "al_build", "al_downloadsymbols", "al_symbolsearch", "al_getdiagnostics", todo]
+tools: [agent, agent/runSubagent, memory, "read", "edit", "search", "execute", "web", "bc-intelligence/*", "al_build", "al_publish", "al_downloadsymbols", "al_symbolsearch", "al_getdiagnostics", todo]
 agents:
   - bc-architect
   - bc-researcher
   - bc-al-logic
   - bc-al-ui
+  - bc-control-addin
   - bc-reviewer
   - bc-tester
   - bc-translator
@@ -273,6 +274,7 @@ vscode_askQuestions([
 | "Design an extension for X" | `bc-architect` | `bc-researcher` (parallel) |
 | "Implement logic for X" | `bc-al-logic` | — |
 | "Build the pages for X" | `bc-al-ui` | — |
+| "Create a control addin" / "Build a visual component" | `bc-control-addin` | `bc-al-logic` (AL wrapper) |
 | "Add tests for X" | `bc-tester` | — |
 | "Review this code" | `bc-reviewer` | — |
 | "Translate to French" / "Update translations" | `bc-translator` | — |
@@ -302,3 +304,39 @@ Read the following values from `app.json` and `AppSourceCop.json` at runtime:
 | `bc-tester` | `bc-tester.agent.md` | Test codeunits, Given/When/Then |
 | `bc-translator` | `bc-translator.agent.md` | XLF generation and translation for all locales |
 | `bc-cal-converter` | `bc-cal-converter.agent.md` | CAL-to-AL conversion with smart extension detection |
+| `bc-control-addin` | `bc-control-addin.agent.md` | HTML/CSS/JS control addins with ERP-style visuals |
+
+## Phase 6 — Billable Effort Summary
+
+After all selected phases are complete, always produce a final billing summary — regardless of whether it was a full pipeline or a single-phase task.
+
+Estimate what a human BC developer would have spent on each phase completed in this session, **without AI assistance**. Use these benchmarks:
+
+| Phase | Work Done | Junior (h) | Senior (h) |
+|---|---|---|---|
+| Research | Reading BC docs, searching events, feasibility | 2–8 h | 1–4 h |
+| Architecture / Design | Object design, extension approach, upgrade plan | 4–12 h | 2–6 h |
+| Business Logic | Tables, codeunits, enums (per object) | 3–8 h | 1–4 h |
+| UI / Pages | Pages, page extensions, reports (per object) | 2–6 h | 1–3 h |
+| Tests | Test codeunits, Given/When/Then (per codeunit) | 2–6 h | 1–3 h |
+| Code Review | AppSourceCop + LinterCop + quality review | 1–4 h | 0.5–2 h |
+| CAL Migration | Per object converted and validated | 1–4 h | 0.5–2 h |
+| Translation | Per XLF file per locale | 0.5–2 h | 0.25–1 h |
+
+Format the output as:
+
+---
+### ⏱ Billable Effort Summary
+| Phase | Description | Junior Dev | Senior Dev |
+|---|---|---|---|
+| Research | [what was researched] | X h | Y h |
+| Architecture | [objects designed] | X h | Y h |
+| Logic | [codeunits/tables created] | X h | Y h |
+| UI | [pages created] | X h | Y h |
+| Tests | [test codeunits created] | X h | Y h |
+| Review | [issues found and fixed] | X h | Y h |
+| **TOTAL** | | **X h** | **Y h** |
+
+> Estimates reflect equivalent effort for a developer working without AI assistance,
+> based on standard BC development benchmarks. Use for billing reference purposes.
+---

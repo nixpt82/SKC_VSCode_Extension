@@ -71,6 +71,7 @@ You can invoke any subagent directly:
 - "Design an extension for X" -- triggers `bc-architect` (+ `bc-researcher` in parallel if unfamiliar area)
 - "Implement the logic for X" -- triggers `bc-al-logic` only
 - "Build the pages for this design" -- triggers `bc-al-ui` only
+- "Create a control addin for X" -- triggers `bc-control-addin` only
 - "Add tests for this table" -- triggers `bc-tester` only
 - "Review this codeunit" -- triggers `bc-reviewer` only
 - "Translate to French" -- triggers `bc-translator` only
@@ -91,6 +92,7 @@ The MCP specialists remain accessible outside the orchestration:
 | Architect | `bc-architect.agent.md` | al_symbolsearch, alex-architect, jordan-bridge |
 | Logic Dev | `bc-al-logic.agent.md` | al_symbolsearch, sam-coder, eva-errors, jordan-bridge |
 | UI Dev | `bc-al-ui.agent.md` | al_symbolsearch, search_code, uma-ux, sam-coder |
+| Control Addin | `bc-control-addin.agent.md` | al_symbolsearch, al_build, HTML/CSS/JS ERP-style visuals |
 | Tester | `bc-tester.agent.md` | al_downloadsymbols, al_build, al_getdiagnostics, quinn-tester |
 | Reviewer | `bc-reviewer.agent.md` | al_build, al_getdiagnostics, roger-reviewer, seth-security, morgan-market |
 | Translator | `bc-translator.agent.md` | al_build, createLanguageXlf, skc_translate_xlf, skc_list_translation_files |

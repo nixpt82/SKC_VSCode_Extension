@@ -39,7 +39,7 @@ Scan the input files:
 ## Step 2 — Read Project Context
 
 1. Read `app.json` for ID range and runtime.
-2. Use `#fileSearch` with `**/*.al` to understand naming and namespace pattern.
+2. Use `file_search` with `**/*.al` to understand naming and namespace pattern.
 3. Consult `logan-legacy` via `ask_bc_expert` if available for migration patterns.
 4. Consult `sam-coder` via `ask_bc_expert` if available for modern AL replacements.
 

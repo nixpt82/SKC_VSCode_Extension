@@ -21,7 +21,8 @@
     "Other"
   ],
   "activationEvents": [
-    "*"
+    "onView:skcTranslationsView",
+    "workspaceContains:**/app.json"
   ],
   "main": "./out/extension.js",
   "icon": "assets/Small_Logo.png",
@@ -215,6 +216,9 @@
       },
       {
         "path": "./skills/mermaid-to-word/SKILL.md"
+      },
+      {
+        "path": "./skills/bc-control-addin/SKILL.md"
       }
     ],
     "configuration": {

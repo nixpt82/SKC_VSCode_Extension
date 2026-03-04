@@ -12,9 +12,6 @@ You build visually polished, ERP-professional HTML/CSS/JS control addins for Bus
 ## Skill
 
 Always read and apply the full skill before writing any code:
-`c:\Users\LuisMonteiro\.copilot\skills\bc-control-addin\SKILL.md`
-
-Also read the project-local skill if it exists:
 `skills/bc-control-addin/SKILL.md`
 
 ## Project Context (read at runtime)
