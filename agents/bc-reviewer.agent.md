@@ -3,7 +3,6 @@ name: bc-reviewer
 description: BC AL Reviewer for any Business Central AL extension project. Reviews AL code for quality, security, AppSourceCop compliance, and LinterCop rules. MCP specialists when available — roger-reviewer (code quality, best practices), seth-security (permissions, DataClassification, security vulnerabilities), morgan-market (AppSource technical checklist). Reads project suffix and ID range from app.json.
 model:
   - 'Claude Opus 4.6 (copilot)'
-  - 'Gemini 2.5 Pro (copilot)'
   - 'Claude Sonnet 4.6 (copilot)'
 tools: ["read", "search", "web", "bc-intelligence/*", "al_symbolsearch", "al_build", "al_downloadsymbols", "al_getdiagnostics"]
 ---

@@ -206,6 +206,17 @@
         }
       }
     ],
+    "chatSkills": [
+      {
+        "path": "./skills/bc-orchestration/SKILL.md"
+      },
+      {
+        "path": "./skills/bc-word-layout/SKILL.md"
+      },
+      {
+        "path": "./skills/mermaid-to-word/SKILL.md"
+      }
+    ],
     "configuration": {
       "title": "SKC Presets",
       "properties": {
