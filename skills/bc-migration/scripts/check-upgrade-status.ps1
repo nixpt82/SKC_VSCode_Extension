@@ -6,7 +6,7 @@
 # ============================================================================
 
 param(
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [string]$ConfigFile = "upgrade-config.json"
 )
 
@@ -45,17 +45,19 @@ if (Test-Path $deltaFolder) {
         Write-Host "  Delta files: $deltaCount" -ForegroundColor White
         
         # Group by object type
-        $grouped = $deltaFiles | Group-Object { $_.Name.Substring(0,3) }
+        $grouped = $deltaFiles | Group-Object { $_.Name.Substring(0, 3) }
         foreach ($group in $grouped) {
             Write-Host "    $($group.Name): $($group.Count)" -ForegroundColor Gray
         }
         
         $phase1Complete = $true
-    } else {
+    }
+    else {
         Write-Host "⚠️  In Progress" -ForegroundColor Yellow
         Write-Host "  No delta files found yet" -ForegroundColor White
     }
-} else {
+}
+else {
     Write-Host "❌ Not Started" -ForegroundColor Red
     Write-Host "  Run: .\upgrade-nav2017-to-bc2027.ps1" -ForegroundColor White
 }
@@ -83,7 +85,8 @@ if (Test-Path $bcWorkspace) {
     $appJsonPath = Join-Path $bcWorkspace 'app.json'
     if (Test-Path $appJsonPath) {
         Write-Host "  ✅ app.json exists" -ForegroundColor Green
-    } else {
+    }
+    else {
         Write-Host "  ⚠️  app.json missing" -ForegroundColor Yellow
     }
     
@@ -102,9 +105,10 @@ if (Test-Path $bcWorkspace) {
             
             if ($extCount -gt 0) {
                 Write-Host "    ✅ Extensions generated: $extCount" -ForegroundColor Green
-            } else {
+            }
+            else {
                 Write-Host "    ⚠️  No extensions generated yet" -ForegroundColor Yellow
-                Write-Host "    Action: Run bc-cal-converter in Cursor" -ForegroundColor Cyan
+                Write-Host "    Action: Run bc-cal-converter in VS Code Copilot" -ForegroundColor Cyan
             }
         }
     }
@@ -129,13 +133,15 @@ if (Test-Path $bcWorkspace) {
                 if ($alCount -ge $mode2Count) {
                     $phase2Complete = $true
                 }
-            } else {
+            }
+            else {
                 Write-Host "    ⚠️  No AL files generated yet" -ForegroundColor Yellow
                 Write-Host "    Action: Run Txt2Al.exe or bc-cal-converter" -ForegroundColor Cyan
             }
         }
     }
-} else {
+}
+else {
     Write-Host "❌ Not Started" -ForegroundColor Red
     Write-Host "  Run: .\upgrade-nav2017-to-bc2027.ps1 -SkipPhase1" -ForegroundColor White
 }
@@ -171,20 +177,24 @@ if (Test-Path $bcWorkspace) {
             if ($appFiles) {
                 Write-Host "  ✅ Extension compiled" -ForegroundColor Green
                 $phase3Complete = $true
-            } else {
-                Write-Host "  ⚠️  Not compiled yet" -ForegroundColor Yellow
-                Write-Host "  Action: Run al_build in Cursor" -ForegroundColor Cyan
             }
-        } else {
+            else {
+                Write-Host "  ⚠️  Not compiled yet" -ForegroundColor Yellow
+                Write-Host "  Action: Run al_build" -ForegroundColor Cyan
+            }
+        }
+        else {
             Write-Host ""
             Write-Host "  ⚠️  Symbols not downloaded" -ForegroundColor Yellow
-            Write-Host "  Action: Run al_downloadsymbols in Cursor" -ForegroundColor Cyan
+            Write-Host "  Action: Run al_downloadsymbols" -ForegroundColor Cyan
         }
-    } else {
+    }
+    else {
         Write-Host "⚠️  In Progress" -ForegroundColor Yellow
         Write-Host "  Run: .\upgrade-nav2017-to-bc2027.ps1 -SkipPhase1 -SkipPhase2" -ForegroundColor White
     }
-} else {
+}
+else {
     Write-Host "❌ Not Started" -ForegroundColor Red
 }
 
@@ -230,7 +240,7 @@ if (-not $phase1Complete) {
 }
 elseif (-not $phase2Complete) {
     Write-Host "1. Complete Phase 2: CAL to AL Conversion" -ForegroundColor White
-    Write-Host "   - Open Cursor in: $bcWorkspace" -ForegroundColor Cyan
+    Write-Host "   - Open VS Code in: $bcWorkspace" -ForegroundColor Cyan
     Write-Host "   - Run bc-cal-converter for Mode 1 objects" -ForegroundColor Cyan
     if (Test-Path $mode2Dir) {
         $mode2Files = Get-ChildItem $mode2Dir -Filter "*.txt" -ErrorAction SilentlyContinue
@@ -241,7 +251,7 @@ elseif (-not $phase2Complete) {
 }
 elseif (-not $phase3Complete) {
     Write-Host "1. Complete Phase 3: Compilation and Review" -ForegroundColor White
-    Write-Host "   - Open Cursor in: $bcWorkspace" -ForegroundColor Cyan
+    Write-Host "   - Open VS Code in: $bcWorkspace" -ForegroundColor Cyan
     Write-Host "   - Download symbols: al_downloadsymbols" -ForegroundColor Cyan
     Write-Host "   - Compile: al_build" -ForegroundColor Cyan
     Write-Host "   - Review: Run bc-reviewer subagent" -ForegroundColor Cyan

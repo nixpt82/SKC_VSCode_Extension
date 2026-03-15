@@ -13,16 +13,15 @@
 
 ### 0. **Bundles Skills and Subagents**
 
-Ships with the full Anthropic curated skills set plus SKC BC skills (`bc-word-layout`, `bc-orchestration` with CAL-to-AL converter). Skills and BC subagents install on extension updates (via Apply Presets): Cursor → `~/.cursor/skills/` & `~/.cursor/agents/`, VS Code → `~/.copilot/skills/` & `~/.copilot/agents/`. In VS Code, `chat.agentFilesLocations` is updated so Copilot discovers the installed agents. Can be installed manually via commands.
+Ships with focused SKC Copilot skills for `bc-orchestration`, `bc-migration`, `bc-agent-sdk`, `bc-word-layout`, `mermaid-to-word`, and `bc-control-addin`, plus an extra bundled `anthropic-skills` tree for general-purpose functionality. Skills and BC subagents install on extension updates (via Apply Presets) to `~/.copilot/skills/` & `~/.copilot/agents/`. In VS Code, `chat.agentFilesLocations` is updated so Copilot discovers the installed agents. Can be installed manually via commands.
 
-#### BC Orchestration Skill (NEW in v1.8.0)
-- **8 BC Subagents**: bc-cal-converter, bc-researcher, bc-architect, bc-al-logic, bc-al-ui, bc-tester, bc-reviewer, bc-translator
-- **CAL-to-AL Converter**: Intelligent NAV 2017 to BC 2027 upgrade with dual-mode strategy
-- **Smart Detection**: Auto-creates table/page extensions for standard BC objects (ID < 50000)
-- **Bulk Conversion**: Fast conversion of custom objects (ID >= 50000) using Txt2Al.exe
-- **BC Knowledge Integration**: Consults logan-legacy, sam-coder, and alex-architect specialists
-- **PowerShell Automation**: Complete upgrade pipeline scripts included
-- **50% Time Savings**: Dual-mode approach cuts conversion time in half while maintaining quality
+#### BC Skills Included
+- **`bc-orchestration`**: Coordinates research, architecture, logic, UI, test, review, translation, and migration phases
+- **`bc-migration`**: Independent CAL-to-AL migration skill with DELTA-first cleanup guidance, safety rules, checklists, and upgrade references
+- **`bc-agent-sdk`**: Independent BC Agent SDK skill for building deployable AI agent extensions
+- **`bc-control-addin`**: Specialist skill for HTML/CSS/JS Business Central control addins
+- **`bc-word-layout`** and **`mermaid-to-word`**: Document and layout support skills
+- **`anthropic-skills`**: Extra general-purpose utility skills bundled independently from the BC-specific skill set
 
 ### 1. **XLF Translation Tools**
 
@@ -117,8 +116,8 @@ Configures VS Code with production-ready settings specifically optimized for AL 
 
 ### Commands
 - **SKC: Apply Presets** - Manually apply all presets
-- **SKC: Install Cursor Skills** - Install bundled skills (Cursor: `~/.cursor/skills/`, VS Code: `~/.copilot/skills/`)
-- **SKC: Install Cursor Agents** - Install BC subagents (Cursor: `~/.cursor/agents/`, VS Code: `~/.copilot/agents/`)
+- **SKC: Install Copilot Skills** - Install bundled skills (`~/.copilot/skills/`)
+- **SKC: Install Copilot Agents** - Install BC subagents (`~/.copilot/agents/`)
 - **SKC: Configure MCP Auth** - Set up MCP server authentication
 - **SKC: Configure Translation URL** - Set Azure Translation Function endpoint
 - **Translate File** - Translate selected XLF file (from sidebar)
@@ -167,7 +166,7 @@ All settings are prefixed with `skc.*`:
 - `skc.presetFilePath` - Custom settings preset path
 - `skc.mcpFilePath` - Custom MCP servers configuration path
 - `skc.extensionsFilePath` - Custom extensions list path
-- `skc.installSkillsOnApplyPresets` - Auto-install bundled Cursor skills on Apply Presets (default: true)
+- `skc.installSkillsOnApplyPresets` - Auto-install bundled Copilot skills on Apply Presets (default: true)
 - `skc.azureFunctionUrl` - Azure Translation Function endpoint URL
 - `skc.showNewsOnStartup` - Show news notification on startup (default: true)
 - `skc.autoOpenNewsPage` - Auto-open news page instead of notification (default: false)

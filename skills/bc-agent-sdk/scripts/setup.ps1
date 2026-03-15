@@ -1,11 +1,11 @@
 # BC Agent SDK - Setup Script
-# Deploys the bc-agent-sdk subagent to ~/.cursor/agents/
+# Deploys the bc-agent-sdk subagent to ~/.copilot/agents/
 
 $ErrorActionPreference = 'Stop'
 
 $SkillDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$CursorHome = Join-Path $env:USERPROFILE '.cursor'
-$AgentsTarget = Join-Path $CursorHome 'agents'
+$CopilotHome = Join-Path $env:USERPROFILE '.copilot'
+$AgentsTarget = Join-Path $CopilotHome 'agents'
 
 Write-Host "BC Agent SDK Setup" -ForegroundColor Cyan
 Write-Host "==================" -ForegroundColor Cyan
@@ -39,4 +39,4 @@ foreach ($file in $AgentFiles) {
 
 Write-Host ""
 Write-Host "Done! Deployed $CopiedAgents agent(s)." -ForegroundColor Cyan
-Write-Host "Restart Cursor to pick up the new agent." -ForegroundColor Yellow
+Write-Host "Restart VS Code to pick up the new agent." -ForegroundColor Yellow

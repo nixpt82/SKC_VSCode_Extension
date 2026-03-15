@@ -1,5 +1,20 @@
 # 📰 SKC VS Tools - What's New
 
+## Version 2.3.2 - Latest Release
+
+### 🧭 Skill Separation Follow-Up
+
+This release keeps the Business Central skill split intact while restoring the extra bundled `anthropic-skills` functionality.
+
+#### What's changed
+- **`bc-migration`** is now a standalone skill for CAL-to-AL migration, cleanup, and DELTA-first conversion guidance
+- **`bc-orchestration`** remains a separate orchestration skill focused on multi-phase BC delivery
+- **`bc-agent-sdk`** remains a separate skill and is referenced from orchestration when BC Agent SDK work is needed
+- Migration upgrade scripts now live under `skills/bc-migration/scripts/`
+- Restored the bundled `anthropic-skills` vendor skill tree as extra non-BC functionality alongside the separated BC skills
+
+---
+
 ## Version 2.3.0 - Latest Release
 
 ### ⏱ Billable Effort Summary in Orchestration
@@ -31,18 +46,16 @@ A dedicated **`bc-control-addin`** subagent and skill have been added for buildi
 
 ## Version 2.1.0
 
-### 🎯 VS Code-Only Focus — Cursor Support Removed
+### 🎯 VS Code-Only Focus
 
-This release removes all Cursor IDE support. SKC Tools now targets **VS Code / GitHub Copilot exclusively**, simplifying the codebase and configuration.
+SKC Tools now targets **VS Code / GitHub Copilot exclusively**, simplifying the codebase and configuration.
 
 #### What Changed
 - **Skills** now always install to `~/.copilot/skills/`
 - **Agents** now always install to `~/.copilot/agents/` (`.agent.md` format kept as-is)
 - **mcp.servers** preset is always written in VS Code object format
-- Removed `skc.writeCursorMcpFile` setting — only `skc.writeVSCodeMcpFile` remains
-- Removed `cursor-global` special path value from `skc.mcpFilePath`
-- Command palette entries renamed: **SKC: Install Copilot Skills / Agents**
-- Preset `settings.json` no longer applies Cursor-specific settings (`cursor.privacy.mode`, `cursor.telemetry`, `cursor.aiProxy`)
+- Only `skc.writeVSCodeMcpFile` setting supported
+- Command palette entries: **SKC: Install Copilot Skills / Agents**
 
 #### News Page Auto-Open
 - The What's New page now **always opens automatically** as a Markdown preview on each new version
@@ -119,7 +132,7 @@ This major release adds the **bc-cal-converter** subagent and complete PowerShel
 # 2. Run complete pipeline
 .\upgrade-nav2017-to-bc2027.ps1 -ConfigFile "upgrade-config.json"
 
-# 3. In Cursor, trigger bc-cal-converter
+# 3. In VS Code, trigger bc-cal-converter
 "Convert the CAL files in Mode1_StandardObjects to AL extensions"
 
 # 4. Check progress
@@ -161,14 +174,14 @@ This version introduced the BC orchestration framework with 7 specialist subagen
 ### 🤖 NEW: Translation LLM Tools
 - **#translateXlf** – Let the AI translate an XLF file to a target language. Provide the source file path and locale (e.g. `fr-FR`); the model can invoke the tool and get a summary (translated count, sync info).
 - **#listTranslations** – Let the AI list all XLF files and translation progress (units translated per language). Use in chat when you ask about translation status.
-- Requires **skc.azureFunctionUrl** for translate; list works without it. Available when the editor supports the Language Model Tools API (VS Code 1.108+ / Cursor).
+- Requires **skc.azureFunctionUrl** for translate; list works without it. Available when the editor supports the Language Model Tools API (VS Code 1.108+).
 
-### 🧠 Cursor Skills Auto-Install
-- **All Anthropic Curated Skills + SKC BC Word Layout** are bundled with the extension
+### 🧠 Copilot Skills Auto-Install
+- **Focused SKC BC skills** are bundled with the extension
 - **Auto-install on update** when presets are applied (default on)
-- **Manual install**: `SKC: Install Cursor Skills` · **Setting**: `skc.installSkillsOnApplyPresets`
-- Skills install to `~/.cursor/skills/` (Cursor) or `~/.copilot/skills/` (VS Code)
-- Agents (subagents) install to `~/.cursor/agents/` (Cursor) or `~/.copilot/agents/` (VS Code); in VS Code, `chat.agentFilesLocations` is configured automatically
+- **Manual install**: `SKC: Install Copilot Skills` · **Setting**: `skc.installSkillsOnApplyPresets`
+- Skills install to `~/.copilot/skills/`
+- Agents (subagents) install to `~/.copilot/agents/`; `chat.agentFilesLocations` is configured automatically
 
 ---
 
@@ -221,11 +234,11 @@ Includes essential AL development extensions:
 - **SKC: Apply Presets** - Manually apply all presets
 - **SKC: Configure MCP Auth** - Set up GitHub and Context7 credentials
 - **SKC: Configure Translation URL** - Set up Azure Translation Function endpoint
-- **SKC: Install Cursor Skills** - Install BC orchestration and other skills
+- **SKC: Install Copilot Skills** - Install BC orchestration and other skills
 - **Translate File** - Translate selected XLF file (from sidebar)
 - **Refresh Translations** - Refresh the translations list
 
-### BC Orchestration Commands (in Cursor)
+### BC Orchestration Commands (in VS Code Copilot)
 - **"Convert CAL to AL"** - Triggers bc-cal-converter subagent
 - **"Migrate from NAV"** - Starts migration orchestration
 - **"Run bc-reviewer"** - Quality and security review

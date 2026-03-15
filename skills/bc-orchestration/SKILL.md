@@ -7,6 +7,11 @@ description: Orchestrate Business Central AL development using phased subagents 
 
 Coordinate Business Central AL development through phased subagent delegation, each backed by BC Knowledge MCP specialists for deep domain expertise.
 
+Keep orchestration separate from specialist skills:
+- Use `bc-migration` for focused CAL-to-AL migration and cleanup work.
+- Use `bc-agent-sdk` for focused BC Agent SDK implementation work.
+- Use this orchestration skill when you need those activities combined with research, implementation, testing, review, or translation.
+
 ## Installation
 
 Deploy subagents and the orchestrator rule to their required locations:
@@ -19,15 +24,17 @@ Deploy subagents and the orchestrator rule to their required locations:
 .\scripts\uninstall.ps1
 ```
 
-After running setup, restart Cursor to pick up the new agents and rule.
+After running setup, restart VS Code to pick up the new agents and rule.
 
 ## How It Works
 
-The orchestrator rule (`bc-orchestrator.mdc`) teaches the main agent to delegate BC tasks to 8 specialist subagents. Each subagent consults BC Knowledge MCP specialists for guidance, then converts legacy code, researches, implements, tests, reviews, or translates code.
+The orchestrator rule (`bc-orchestrator.mdc`) teaches the main agent to delegate BC tasks to specialist subagents. Each subagent consults BC Knowledge MCP specialists for guidance, then converts legacy code, researches, implements, tests, reviews, or translates code.
 
 ### Orchestration Phases
 
 **CAL-to-AL migration** (triggered by "convert", "migrate", "upgrade from NAV", "CAL to AL", or presence of `.txt`/`.DELTA` files):
+
+Load the separate `bc-migration` skill for the detailed migration methodology, safety gates, and cleanup rules.
 
 0. **CAL-to-AL Conversion** -- `bc-cal-converter` subagent (foreground)
    - Parses C/AL text exports and `.DELTA` files
@@ -72,7 +79,7 @@ You can invoke any subagent directly:
 - "Implement the logic for X" -- triggers `bc-al-logic` only
 - "Build the pages for this design" -- triggers `bc-al-ui` only
 - "Create a control addin for X" -- triggers `bc-control-addin` only
-- "Build a BC agent extension", "implement IAgentFactory", "use the BC Agent SDK" -- triggers `bc-agent-sdk` only
+- "Build a BC agent extension", "implement IAgentFactory", "use the BC Agent SDK" -- triggers `bc-agent-sdk` only (separate skill)
 - "Add tests for this table" -- triggers `bc-tester` only
 - "Review this codeunit" -- triggers `bc-reviewer` only
 - "Translate to French" -- triggers `bc-translator` only
@@ -94,7 +101,7 @@ The MCP specialists remain accessible outside the orchestration:
 | Logic Dev | `bc-al-logic.agent.md` | al_symbolsearch, sam-coder, eva-errors, jordan-bridge |
 | UI Dev | `bc-al-ui.agent.md` | al_symbolsearch, search_code, uma-ux, sam-coder |
 | Control Addin | `bc-control-addin.agent.md` | al_symbolsearch, al_build, HTML/CSS/JS ERP-style visuals |
-| Agent SDK Dev | `bc-agent-sdk.md` | al_symbolsearch, al_build, al_getdiagnostics, sam-coder |
+| Agent SDK Dev | `bc-agent-sdk.agent.md` | al_symbolsearch, al_build, al_getdiagnostics, sam-coder |
 | Tester | `bc-tester.agent.md` | al_downloadsymbols, al_build, al_getdiagnostics, quinn-tester |
 | Reviewer | `bc-reviewer.agent.md` | al_build, al_getdiagnostics, roger-reviewer, seth-security, morgan-market |
 | Translator | `bc-translator.agent.md` | al_build, createLanguageXlf, skc_translate_xlf, skc_list_translation_files |
@@ -132,3 +139,4 @@ The `bc-cal-converter` subagent uses object ID-based smart detection:
 ## Additional Resources
 
 - For the full specialist roster and mapping, see [specialists-reference.md](specialists-reference.md)
+- For detailed CAL-to-AL migration workflow, safety rules, and DELTA-first cleanup guidance, load [../bc-migration/SKILL.md](../bc-migration/SKILL.md)

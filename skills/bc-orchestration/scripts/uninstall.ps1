@@ -1,11 +1,11 @@
 # BC Orchestration - Uninstall Script
-# Removes deployed subagent files and orchestrator rule from ~/.cursor/
+# Removes deployed subagent files and orchestrator rule from ~/.copilot/
 
 $ErrorActionPreference = 'Stop'
 
-$CursorHome = Join-Path $env:USERPROFILE '.cursor'
-$AgentsTarget = Join-Path $CursorHome 'agents'
-$RulesTarget = Join-Path $CursorHome 'rules'
+$CopilotHome = Join-Path $env:USERPROFILE '.copilot'
+$AgentsTarget = Join-Path $CopilotHome 'agents'
+$RulesTarget = Join-Path $CopilotHome 'rules'
 
 Write-Host "BC Orchestration Uninstall" -ForegroundColor Cyan
 Write-Host "==========================" -ForegroundColor Cyan
@@ -56,7 +56,7 @@ foreach ($name in $RuleNames) {
 Write-Host ""
 if ($Removed -gt 0) {
     Write-Host "Done! Removed $Removed file(s)." -ForegroundColor Cyan
-    Write-Host "Restart Cursor to apply changes." -ForegroundColor Yellow
+    Write-Host "Restart VS Code to apply changes." -ForegroundColor Yellow
 } else {
     Write-Host "Nothing to remove. BC Orchestration was not installed." -ForegroundColor DarkGray
 }

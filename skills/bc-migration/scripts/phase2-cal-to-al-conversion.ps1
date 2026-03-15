@@ -10,7 +10,7 @@
 # ============================================================================
 
 param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     [PSCustomObject]$Config
 )
 
@@ -44,39 +44,40 @@ if (-not (Test-Path $appJsonPath)) {
     Write-Host "Creating app.json..." -ForegroundColor Yellow
     
     $appJson = @{
-        id = [guid]::NewGuid().ToString()
-        name = $Config.appName
-        publisher = $Config.appPublisher
-        version = "1.0.0.0"
-        brief = "Upgraded from NAV 2017"
-        description = "Business Central extension upgraded from NAV 2017"
-        privacyStatement = ""
-        EULA = ""
-        help = ""
-        url = ""
-        logo = ""
-        dependencies = @()
-        screenshots = @()
-        platform = "1.0.0.0"
-        application = "27.0.0.0"
-        idRanges = @(
+        id                     = [guid]::NewGuid().ToString()
+        name                   = $Config.appName
+        publisher              = $Config.appPublisher
+        version                = "1.0.0.0"
+        brief                  = "Upgraded from NAV 2017"
+        description            = "Business Central extension upgraded from NAV 2017"
+        privacyStatement       = ""
+        EULA                   = ""
+        help                   = ""
+        url                    = ""
+        logo                   = ""
+        dependencies           = @()
+        screenshots            = @()
+        platform               = "1.0.0.0"
+        application            = "27.0.0.0"
+        idRanges               = @(
             @{
                 from = $Config.appIdRangeStart
-                to = $Config.appIdRangeEnd
+                to   = $Config.appIdRangeEnd
             }
         )
         resourceExposurePolicy = @{
-            allowDebugging = $true
-            allowDownloadingSource = $false
+            allowDebugging            = $true
+            allowDownloadingSource    = $false
             includeSourceInSymbolFile = $false
         }
-        runtime = "14.0"
-        features = @("NoImplicitWith")
+        runtime                = "14.0"
+        features               = @("NoImplicitWith")
     } | ConvertTo-Json -Depth 10
     
     $appJson | Out-File -FilePath $appJsonPath -Encoding UTF8
     Write-Host "[OK] app.json created" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "[OK] app.json already exists" -ForegroundColor Green
 }
 
@@ -96,7 +97,7 @@ $customerFolder = Join-Path $Config.exportRoot 'Customer'
 # Create directories for separated objects
 $mode1Dir = Join-Path $Config.exportRoot 'Mode1_StandardObjects'
 $mode2Dir = Join-Path $Config.exportRoot 'Mode2_CustomObjects'
-New-Item -ItemType Directory -Path $mode1Dir,$mode2Dir -Force | Out-Null
+New-Item -ItemType Directory -Path $mode1Dir, $mode2Dir -Force | Out-Null
 
 Write-Host "Analyzing delta files..." -ForegroundColor Yellow
 
@@ -117,7 +118,8 @@ foreach ($file in $deltaFiles) {
             # Mode 1: Standard BC object with customizations
             Copy-Item $file.FullName -Destination $mode1Dir
             $mode1Count++
-        } else {
+        }
+        else {
             # Mode 2: Fully custom object (rare in DELTA, but possible)
             Copy-Item $file.FullName -Destination $mode2Dir
             $mode2Count++
@@ -205,7 +207,8 @@ if ($totalMode2 -gt 0) {
         Write-Host "  3. Set txt2alPath in configuration file" -ForegroundColor White
         Write-Host ""
         Write-Host "  Mode 2 objects will be processed by bc-cal-converter subagent instead." -ForegroundColor Yellow
-    } else {
+    }
+    else {
         Write-Host "Using Txt2Al.exe: $txt2alPath" -ForegroundColor Green
         Write-Host ""
         
@@ -226,11 +229,13 @@ if ($totalMode2 -gt 0) {
                 $alFiles = (Get-ChildItem $srcDir -Filter "*.al" | Measure-Object).Count
                 Write-Host "[OK] Txt2Al.exe completed successfully" -ForegroundColor Green
                 Write-Host "  Generated $alFiles AL files" -ForegroundColor White
-            } else {
+            }
+            else {
                 Write-Host "[WARNING] Txt2Al.exe exited with code: $($process.ExitCode)" -ForegroundColor Yellow
                 Write-Host "  Some objects may need manual review" -ForegroundColor Yellow
             }
-        } catch {
+        }
+        catch {
             Write-Host "[ERROR] Txt2Al.exe failed: $_" -ForegroundColor Red
             Write-Host "  Mode 2 objects will need manual conversion" -ForegroundColor Yellow
         }
@@ -376,7 +381,7 @@ Write-Host "[OK] Conversion instructions created: $instructionsPath" -Foreground
 Write-Host ""
 
 # ============================================================================
-# Step 2.5: Invoke bc-cal-converter Subagent (via Cursor)
+# Step 2.5: Invoke bc-cal-converter Subagent
 # ============================================================================
 
 Write-Host "Step 2.5: Ready for bc-cal-converter Subagent" -ForegroundColor Cyan
@@ -386,7 +391,7 @@ Write-Host ""
 Write-Host "The workspace is ready for the bc-cal-converter subagent." -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "1. Open Cursor in the BC workspace: $($Config.bcWorkspace)" -ForegroundColor White
+Write-Host "1. Open VS Code in the BC workspace: $($Config.bcWorkspace)" -ForegroundColor White
 Write-Host "2. Read the conversion instructions: conversion-instructions.md" -ForegroundColor White
 Write-Host "3. Invoke the bc-cal-converter subagent with:" -ForegroundColor White
 Write-Host "   'Convert the CAL files in Mode1_StandardObjects to AL extensions'" -ForegroundColor Cyan
@@ -403,10 +408,10 @@ Write-Host ""
 
 # Return paths for next phase
 return @{
-    workspace = $Config.bcWorkspace
-    mode1Dir = $mode1Dir
-    mode2Dir = $mode2Dir
-    srcDir = $srcDir
+    workspace  = $Config.bcWorkspace
+    mode1Dir   = $mode1Dir
+    mode2Dir   = $mode2Dir
+    srcDir     = $srcDir
     mode1Count = $mode1Count
     mode2Count = $totalMode2
 }

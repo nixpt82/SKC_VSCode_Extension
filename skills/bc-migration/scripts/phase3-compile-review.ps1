@@ -69,7 +69,7 @@ if (-not (Test-Path $launchJsonPath)) {
 Write-Host ""
 
 # ============================================================================
-# Step 3.2: Create Compilation Instructions for Cursor
+# Step 3.2: Create Compilation Instructions
 # ============================================================================
 
 Write-Host "Step 3.2: Creating Compilation Instructions" -ForegroundColor Cyan
@@ -95,7 +95,7 @@ The CAL to AL conversion is complete. This phase focuses on compiling the code a
 
 Before compilation, download BC symbols using the AL Language extension.
 
-### Instructions for Cursor:
+### Instructions:
 
 Use the VS Code tool to download symbols:
 
@@ -109,7 +109,7 @@ This downloads the BC platform symbols and dependencies needed for compilation.
 
 Compile the AL code to check for errors.
 
-### Instructions for Cursor:
+### Instructions:
 
 Use the VS Code tool to build:
 
@@ -128,7 +128,7 @@ al_build(workspace_path: "$workspace")
 
 After compilation, get detailed diagnostics.
 
-### Instructions for Cursor:
+### Instructions:
 
 ``````
 al_getdiagnostics(workspace_path: "$workspace")
@@ -183,7 +183,7 @@ ask_bc_expert(
 
 After fixing compilation errors, run comprehensive quality review.
 
-### Instructions for Cursor:
+### Instructions:
 
 Delegate to the bc-reviewer subagent:
 
@@ -428,7 +428,7 @@ Write-Host ""
 Write-Host "Phase 3 preparation complete!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "1. Open Cursor in the BC workspace: $workspace" -ForegroundColor White
+Write-Host "1. Open VS Code in the BC workspace: $workspace" -ForegroundColor White
 Write-Host "2. Read the compilation instructions: compile-instructions.md" -ForegroundColor White
 Write-Host "3. Download symbols and compile using VS Code tools" -ForegroundColor White
 Write-Host "4. Run bc-reviewer subagent for quality check" -ForegroundColor White

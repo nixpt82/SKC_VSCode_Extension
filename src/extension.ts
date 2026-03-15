@@ -509,7 +509,7 @@ async function installAgents(context: ExtensionContext, channel: OutputChannel):
   await fs.mkdir(targetRoot, { recursive: true });
 
   const agentFiles = await fs.readdir(sourceRoot, { withFileTypes: true });
-  // Source files use .agent.md (VS Code format). Cursor expects plain .md — strip the '.agent' part.
+  // Source files use .agent.md (VS Code format).
   const mdFiles = agentFiles.filter((f) => f.isFile() && f.name.endsWith(".md"));
 
   let installedCount = 0;
@@ -827,11 +827,6 @@ async function readExtensionsFile(
   }
 }
 
-/**
- * Writes MCP servers to the Cursor user path (e.g. %USERPROFILE%\.cursor\mcp.json on Windows)
- * in Cursor's expected format ({ "mcpServers": { "id": { ...config } } }).
- * Existing MCP servers in the file are never replaced; new entries are added only for servers not already present.
- */
 /**
  * Writes MCP servers to the VS Code user mcp.json file
  * (e.g. %APPDATA%\Code - Insiders\User\mcp.json on Windows)

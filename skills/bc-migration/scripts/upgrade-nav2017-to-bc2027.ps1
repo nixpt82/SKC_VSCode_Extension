@@ -9,7 +9,7 @@
 # - NAV 2017 databases (base and customer)
 # - NAV 2017 Model Tools installed
 # - Txt2Al.exe (from BC AL extension or in workspace bin/)
-# - Cursor with bc-orchestration skill installed
+# - VS Code with bc-migration skill installed
 # - BC development environment
 #
 # Usage:
@@ -18,19 +18,19 @@
 # ============================================================================
 
 param(
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [string]$ConfigFile = "upgrade-config.json",
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [switch]$SkipPhase1,  # Skip NAV export and delta generation
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [switch]$SkipPhase2,  # Skip CAL to AL conversion
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [switch]$SkipPhase3,  # Skip compilation and review
     
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory = $false)]
     [switch]$DryRun       # Show what would be done without executing
 )
 
@@ -52,22 +52,22 @@ if (-not (Test-Path $ConfigFile)) {
     Write-Host "Creating template configuration file..." -ForegroundColor Yellow
     
     $templateConfig = @{
-        sqlServer = ".\NAVDEMO"
-        nav2017BaseDb = "NAV2017_BASE"
-        nav2017CustomerDb = "NAV2017 CUSTOMER"
-        exportRoot = "C:\NAV2017Upgrade"
-        bcWorkspace = "C:\BC2027Extension"
-        bcTargetVersion = "BC27"
-        appName = "MyCompany Extension"
-        appPublisher = "MyCompany"
-        appIdRangeStart = 84000
-        appIdRangeEnd = 84999
+        sqlServer              = ".\NAVDEMO"
+        nav2017BaseDb          = "NAV2017_BASE"
+        nav2017CustomerDb      = "NAV2017 CUSTOMER"
+        exportRoot             = "C:\NAV2017Upgrade"
+        bcWorkspace            = "C:\BC2027Extension"
+        bcTargetVersion        = "BC27"
+        appName                = "MyCompany Extension"
+        appPublisher           = "MyCompany"
+        appIdRangeStart        = 84000
+        appIdRangeEnd          = 84999
         customObjectRangeStart = 50000
-        customObjectRangeEnd = 59999
-        prefix = "021SKC"
-        finsqlPath = "C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\finsql.exe"
-        modelToolsPath = "C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\Microsoft.Dynamics.Nav.Model.Tools.psd1"
-        txt2alPath = ""  # Leave empty to auto-detect
+        customObjectRangeEnd   = 59999
+        prefix                 = "021SKC"
+        finsqlPath             = "C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\finsql.exe"
+        modelToolsPath         = "C:\Program Files (x86)\Microsoft Dynamics NAV\100\RoleTailored Client\Microsoft.Dynamics.Nav.Model.Tools.psd1"
+        txt2alPath             = ""  # Leave empty to auto-detect
     } | ConvertTo-Json -Depth 10
     
     $templateConfig | Out-File -FilePath $ConfigFile -Encoding UTF8
@@ -106,10 +106,12 @@ if (-not $SkipPhase1) {
     
     if ($DryRun) {
         Write-Host "[DRY RUN] Would execute: $phase1Script" -ForegroundColor Yellow
-    } else {
+    }
+    else {
         if (Test-Path $phase1Script) {
             & $phase1Script -Config $config
-        } else {
+        }
+        else {
             Write-Host "WARNING: Phase 1 script not found: $phase1Script" -ForegroundColor Yellow
             Write-Host "Using your existing NAV export script instead..." -ForegroundColor Yellow
             # Assume user's existing script has already run
@@ -133,7 +135,8 @@ if (-not $SkipPhase2) {
     
     if ($DryRun) {
         Write-Host "[DRY RUN] Would execute: $phase2Script" -ForegroundColor Yellow
-    } else {
+    }
+    else {
         & $phase2Script -Config $config
     }
     
@@ -154,7 +157,8 @@ if (-not $SkipPhase3) {
     
     if ($DryRun) {
         Write-Host "[DRY RUN] Would execute: $phase3Script" -ForegroundColor Yellow
-    } else {
+    }
+    else {
         & $phase3Script -Config $config
     }
     

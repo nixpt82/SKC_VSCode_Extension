@@ -269,12 +269,13 @@ vscode_askQuestions([
 
 | User Request | Primary Subagent | Also Involves |
 |---|---|---|
-| "Convert CAL files" / "Migrate from NAV" | `bc-cal-converter` | `bc-reviewer` |
+| "Convert CAL files" / "Migrate from NAV" | `bc-cal-converter` | `bc-reviewer` + `skills/bc-migration/SKILL.md` |
 | "Research how X works in BC" | `bc-researcher` | — |
 | "Design an extension for X" | `bc-architect` | `bc-researcher` (parallel) |
 | "Implement logic for X" | `bc-al-logic` | — |
 | "Build the pages for X" | `bc-al-ui` | — |
 | "Create a control addin" / "Build a visual component" | `bc-control-addin` | `bc-al-logic` (AL wrapper) |
+| "Build a BC agent extension" / "Implement IAgentFactory" | Load `skills/bc-agent-sdk/SKILL.md` | Use the dedicated BC Agent SDK skill flow |
 | "Add tests for X" | `bc-tester` | — |
 | "Review this code" | `bc-reviewer` | — |
 | "Translate to French" / "Update translations" | `bc-translator` | — |

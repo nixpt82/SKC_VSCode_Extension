@@ -2,6 +2,31 @@
 
 All notable changes to the "SKC VS Tools" extension will be documented in this file.
 
+## [2.3.2] - 2026-03-15
+
+### Changed
+
+- Restored the bundled `anthropic-skills` vendor tree as extra functionality independent from the BC-specific skill split
+- Kept `bc-migration`, `bc-orchestration`, and `bc-agent-sdk` as separate skills
+
+### Documentation
+
+- Updated README, extension summary, and news to reflect that `anthropic-skills` remains bundled alongside the separated BC skills
+
+## [2.3.1] - 2026-03-15
+
+### Changed
+
+- Split Business Central migration into a new independent `bc-migration` skill
+- Kept `bc-orchestration` and `bc-agent-sdk` as separate skills with orchestration referencing SDK work
+- Moved upgrade and conversion scripts under `skills/bc-migration/scripts/`
+- Promoted `bc-agent-sdk` as a shipped top-level agent asset for extension installs
+- Removed obsolete orchestration update files
+
+### Documentation
+
+- Updated README, extension summary, news, and skill docs to reflect the separated skill architecture
+
 ## [2.0.0] - 2025-02-10
 
 ### 🚀 Major Release: BC Orchestration & CAL-to-AL Converter
@@ -47,7 +72,7 @@ This major release introduces comprehensive Business Central upgrade capabilitie
 #### Enhanced
 
 - **Skills Installation**: Now includes bc-orchestration skill with all 8 subagents
-- **Agents Deployment**: Automated deployment to ~/.cursor/agents/ and ~/.copilot/agents/
+- **Agents Deployment**: Automated deployment to ~/.copilot/agents/
 - **Documentation**: Added comprehensive upgrade guides and conversion instructions
 - **NEWS.md**: Updated with Version 2.0.0 features and usage examples
 - **EXTENSION_SUMMARY.md**: Enhanced with BC Orchestration capabilities
@@ -70,8 +95,8 @@ This major release introduces comprehensive Business Central upgrade capabilitie
 
 ### Added
 - Translation LLM Tools (#translateXlf, #listTranslations)
-- LM Bridge MCP server for Cursor integration
-- Cursor Skills auto-install on update
+- LM Bridge MCP server
+- Copilot Skills auto-install on update
 
 ### Enhanced
 - Full XLF sync (add missing units, remove obsolete)

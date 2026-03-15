@@ -1,6 +1,6 @@
 # NAV 2017 to BC 2027 Upgrade Scripts
 
-Comprehensive PowerShell scripts to automate the upgrade from NAV 2017 to Business Central 2027 using the bc-orchestration skill and BC Knowledge specialists.
+Comprehensive PowerShell scripts to automate the upgrade from NAV 2017 to Business Central 2027 using the bc-migration skill and BC Knowledge specialists.
 
 ## Overview
 
@@ -16,13 +16,13 @@ These scripts implement a three-phase upgrade pipeline:
 
 - NAV 2017 databases (base and customer)
 - NAV 2017 Model Tools installed
-- Cursor with bc-orchestration skill installed
+- VS Code with bc-migration skill installed
 - BC development environment (BC 2027)
 - Txt2Al.exe (optional, from BC AL extension)
 
 ### Skills Required
 
-- `bc-orchestration` skill installed in Cursor
+- `bc-migration` skill installed in VS Code
 - BC Knowledge MCP server configured
 
 ## Quick Start
@@ -128,7 +128,7 @@ This creates `upgrade-config.json` with default values. Edit it with your settin
 
 **Time**: 
 - Mode 2 (Txt2Al.exe): ~5-10 seconds for 50 objects
-- Mode 1 (bc-cal-converter): ~2 minutes per object (manual in Cursor)
+- Mode 1 (bc-cal-converter): ~2 minutes per object (manual in VS Code Copilot)
 
 ### Phase 3: Compilation and Review
 
@@ -137,7 +137,7 @@ This creates `upgrade-config.json` with default values. Edit it with your settin
 **What it does**:
 1. Prepares workspace for compilation
 2. Creates launch.json for debugging
-3. Creates compilation instructions for Cursor
+3. Creates compilation instructions
 4. Creates review checklist
 
 **Output**:
@@ -145,15 +145,15 @@ This creates `upgrade-config.json` with default values. Edit it with your settin
 - `compile-instructions.md` - Compilation guide
 - `review-checklist.md` - Quality checklist
 
-**Time**: Preparation is instant; actual compilation and review done in Cursor
+**Time**: Preparation is instant; actual compilation and review done in VS Code
 
-## Workflow with Cursor
+## Workflow with VS Code Copilot
 
-After running the scripts, continue in Cursor:
+After running the scripts, continue in VS Code Copilot:
 
 ### Step 1: Mode 1 Conversion (Smart Detection)
 
-Open Cursor in the BC workspace and invoke bc-cal-converter:
+Open VS Code in the BC workspace and invoke bc-cal-converter:
 
 ```
 Convert the CAL files in Mode1_StandardObjects to AL extensions.
@@ -169,7 +169,7 @@ The subagent will:
 
 ### Step 2: Compilation
 
-Use VS Code tools in Cursor:
+Use VS Code tools:
 
 ```
 Download symbols and compile the BC extension.
@@ -364,10 +364,10 @@ Mode 2 objects will be processed by bc-cal-converter if Txt2Al.exe is not availa
 For issues or questions:
 
 1. Check the generated instruction files (`.md` files in workspace)
-2. Consult BC Knowledge specialists via Cursor
-3. Review bc-orchestration skill documentation
+2. Consult BC Knowledge specialists via VS Code Copilot
+3. Review bc-migration skill documentation
 4. Check BC upgrade documentation on Microsoft Learn
 
 ## License
 
-These scripts are part of the bc-orchestration skill for Business Central development.
+These scripts are part of the bc-migration skill for Business Central development.

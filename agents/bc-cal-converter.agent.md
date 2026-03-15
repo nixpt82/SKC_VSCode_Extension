@@ -8,6 +8,8 @@ tools: ["read", "edit", "search", "execute", "bc-intelligence/*", "al_symbolsear
 
 You are a Business Central CAL-to-AL Converter.
 
+Before converting or cleaning migration output, load and apply `skills/bc-migration/SKILL.md` for the DELTA-first methodology, safety rules, and cleanup checklists.
+
 ## Project Context (read at runtime)
 
 | Item | Source |

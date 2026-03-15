@@ -11,7 +11,7 @@ Work with Business Central Word report layouts that use XML content controls to 
 
 ```bash
 # Set PYTHONPATH to skill root
-$env:PYTHONPATH = "$HOME\.cursor\skills\bc-word-layout"
+$env:PYTHONPATH = "$HOME\.copilot\skills\bc-word-layout"
 
 # Analyze an AL report file
 python scripts/analyze.py path/to/report.al

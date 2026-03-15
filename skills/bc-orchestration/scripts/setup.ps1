@@ -1,12 +1,12 @@
 # BC Orchestration - Setup Script
-# Deploys subagent files and orchestrator rule to ~/.cursor/
+# Deploys subagent files and orchestrator rule to ~/.copilot/
 
 $ErrorActionPreference = 'Stop'
 
 $SkillDir = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
-$CursorHome = Join-Path $env:USERPROFILE '.cursor'
-$AgentsTarget = Join-Path $CursorHome 'agents'
-$RulesTarget = Join-Path $CursorHome 'rules'
+$CopilotHome = Join-Path $env:USERPROFILE '.copilot'
+$AgentsTarget = Join-Path $CopilotHome 'agents'
+$RulesTarget = Join-Path $CopilotHome 'rules'
 
 Write-Host "BC Orchestration Setup" -ForegroundColor Cyan
 Write-Host "=====================" -ForegroundColor Cyan
@@ -20,14 +20,16 @@ Write-Host ""
 if (-not (Test-Path $AgentsTarget)) {
     New-Item -ItemType Directory -Path $AgentsTarget -Force | Out-Null
     Write-Host "[Created] $AgentsTarget" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "[Exists]  $AgentsTarget" -ForegroundColor DarkGray
 }
 
 if (-not (Test-Path $RulesTarget)) {
     New-Item -ItemType Directory -Path $RulesTarget -Force | Out-Null
     Write-Host "[Created] $RulesTarget" -ForegroundColor Green
-} else {
+}
+else {
     Write-Host "[Exists]  $RulesTarget" -ForegroundColor DarkGray
 }
 
@@ -59,4 +61,4 @@ foreach ($file in $RuleFiles) {
 
 Write-Host ""
 Write-Host "Done! Deployed $CopiedAgents agent(s) and $CopiedRules rule(s)." -ForegroundColor Cyan
-Write-Host "Restart Cursor to pick up the new agents and rule." -ForegroundColor Yellow
+Write-Host "Restart VS Code to pick up the new agents and rule." -ForegroundColor Yellow

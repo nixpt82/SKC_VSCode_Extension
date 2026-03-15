@@ -2,7 +2,7 @@
   "name": "skc-vs-tools",
   "displayName": "SKC VS Tools",
   "description": "Business Central AL dev setup: presets, MCP servers, extensions, and XLF translation.",
-  "version": "2.3.0",
+  "version": "2.3.2",
   "publisher": "SKConsultingSA",
   "repository": {
     "type": "git",
@@ -210,6 +210,12 @@
     "chatSkills": [
       {
         "path": "./skills/bc-orchestration/SKILL.md"
+      },
+      {
+        "path": "./skills/bc-migration/SKILL.md"
+      },
+      {
+        "path": "./skills/bc-agent-sdk/SKILL.md"
       },
       {
         "path": "./skills/bc-word-layout/SKILL.md"

@@ -23,7 +23,7 @@ Also triggered when AL files contain references to:
 
 ## Installation
 
-Deploys the `bc-agent-sdk` subagent to your Cursor / VS Code agents folder:
+Deploys the `bc-agent-sdk` subagent to your VS Code agents folder:
 
 ```powershell
 # From the bc-agent-sdk skill folder:
@@ -32,7 +32,7 @@ Deploys the `bc-agent-sdk` subagent to your Cursor / VS Code agents folder:
 .\scripts\uninstall.ps1
 ```
 
-> The `bc-agent-sdk` subagent is also included in the `bc-orchestration` skill. If you already use `bc-orchestration`, re-run its `setup.ps1` to pick up the new agent.
+> `bc-agent-sdk` is a separate skill. `bc-orchestration` can reference or delegate to it when BC Agent SDK work is part of a larger delivery.
 
 ## What the Subagent Builds
 
@@ -65,7 +65,7 @@ bc-agent-sdk
   └── Validates with al_build + al_getdiagnostics
 ```
 
-For a full development lifecycle (design → implement → test → review → translate), use the `bc-orchestration` skill, which includes `bc-agent-sdk` as a subagent.
+For a full development lifecycle (design → implement → test → review → translate), use the `bc-orchestration` skill and let it route BC Agent SDK work to this separate skill/agent when needed.
 
 ## Key BC References
 
